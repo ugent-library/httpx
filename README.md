@@ -1,2 +1,2 @@
 # httphelpers
-Package httphelpers contains convenience http helper functions
+Package httphelpers contains convenience HTTP helper functions.
