@@ -1,11 +1,11 @@
-[![Go Reference](https://pkg.go.dev/badge/github.com/ugent-library/httphelpers.svg)](https://pkg.go.dev/github.com/ugent-library/httphelpers)
+[![Go Reference](https://pkg.go.dev/badge/github.com/ugent-library/httpx.svg)](https://pkg.go.dev/github.com/ugent-library/httpx)
 
-# ugent-library/httphelpers
+# ugent-library/httpx
 
-Package httphelpers contains convenience HTTP helper functions.
+Package httpx contains convenience HTTP helper functions.
 
 ## Install
 
 ```sh
-go get -u github.com/ugent-library/httphelpers
+go get -u github.com/ugent-library/httpx
 ```

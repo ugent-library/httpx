@@ -1,5 +1,5 @@
-// Package httphelpers contains convenience HTTP helper functions.
-package httphelpers
+// Package httpx contains convenience HTTP helper functions.
+package httpx
 
 import (
 	"io"

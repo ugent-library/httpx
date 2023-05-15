@@ -1,3 +1,3 @@
-module github.com/ugent-library/httphelpers
+module github.com/ugent-library/httpx
 
 go 1.19
