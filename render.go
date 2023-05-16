@@ -3,16 +3,20 @@ package httpx
 import (
 	"bytes"
 	"encoding/json"
-	"io"
 	"net/http"
 	"sync"
+)
+
+var (
+	JSONContentType = "application/json"
+	HTMLContentType = "text/html; charset=utf-8"
 )
 
 var bufPool = sync.Pool{
 	New: func() any { return &bytes.Buffer{} },
 }
 
-func RenderJSON(w io.Writer, v any) error {
+func RenderJSON(w http.ResponseWriter, status int, v any) {
 	buf := bufPool.Get().(*bytes.Buffer)
 	defer func() {
 		buf.Reset()
@@ -20,18 +24,28 @@ func RenderJSON(w io.Writer, v any) error {
 	}()
 
 	enc := json.NewEncoder(buf)
+	enc.SetEscapeHTML(true)
 
 	if err := enc.Encode(v); err != nil {
-		return err
+		http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
+		return
 	}
 
-	if hw, ok := w.(http.ResponseWriter); ok {
-		if hw.Header().Get("Content-Type") == "" {
-			hw.Header().Set("Content-Type", "application/json")
-		}
+	if hdr := w.Header(); hdr.Get("Content-Type") == "" {
+		hdr.Set("Content-Type", JSONContentType)
 	}
+
+	w.WriteHeader(status)
 
 	w.Write(buf.Bytes())
+}
 
-	return nil
+func RenderHTML(w http.ResponseWriter, status int, v string) {
+	if hdr := w.Header(); hdr.Get("Content-Type") == "" {
+		hdr.Set("Content-Type", HTMLContentType)
+	}
+
+	w.WriteHeader(status)
+
+	w.Write([]byte(v))
 }
