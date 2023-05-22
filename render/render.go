@@ -1,4 +1,4 @@
-package httpx
+package render
 
 import (
 	"bytes"
@@ -16,7 +16,7 @@ var bufPool = sync.Pool{
 	New: func() any { return &bytes.Buffer{} },
 }
 
-func RenderJSON(w http.ResponseWriter, status int, v any) {
+func JSON(w http.ResponseWriter, status int, v any) {
 	buf := bufPool.Get().(*bytes.Buffer)
 	defer func() {
 		buf.Reset()
@@ -40,7 +40,7 @@ func RenderJSON(w http.ResponseWriter, status int, v any) {
 	w.Write(buf.Bytes())
 }
 
-func RenderHTML(w http.ResponseWriter, status int, v string) {
+func HTML(w http.ResponseWriter, status int, v string) {
 	if hdr := w.Header(); hdr.Get("Content-Type") == "" {
 		hdr.Set("Content-Type", HTMLContentType)
 	}
