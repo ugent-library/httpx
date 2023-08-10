@@ -2,7 +2,6 @@
 package httpx
 
 import (
-	"io"
 	"mime"
 	"net/http"
 	"strings"
@@ -22,20 +21,4 @@ func HasContentType(r *http.Request, mimetypes ...string) bool {
 		}
 	}
 	return false
-}
-
-func DetectContentType(f io.ReadSeeker) (string, error) {
-	b := make([]byte, 512)
-	if _, err := f.Read(b); err != nil {
-		return "", err
-	}
-
-	mimetype := http.DetectContentType(b)
-
-	// rewind
-	if _, err := f.Seek(0, io.SeekStart); err != nil {
-		return "", err
-	}
-
-	return mimetype, nil
 }
